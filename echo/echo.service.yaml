@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: echo
+    role: echo-server
+    name: echo-server-1
+  name: echo-server-1
+spec:
+  selector:
+    entity: echo-server-1
+    role: echo-server
+  ports:
+    - port: 8080
+      targetPort: 8080
+  #selector:
+  #  name: echo-server-{{replica_id}}-{{member_id}}
+
