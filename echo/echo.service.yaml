@@ -10,6 +10,7 @@ spec:
   selector:
     entity: echo-server-1
     role: echo-server
+  type: NodePort
   ports:
     - port: 8080
       targetPort: 8080
