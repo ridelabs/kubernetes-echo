@@ -8,14 +8,14 @@ To use this, do the following.
 2. build the image: ./build.sh
 3. upload the image: ./upload.sh
 5. create the controller & service
-  i. kubectl create -f echo.controller.yaml
-  ii. kubectl create -f echo.service.yaml
+..1. kubectl create -f echo.controller.yaml
+..2. kubectl create -f echo.service.yaml
 4. get the service ip
-  i. kubectl get svc | grep echo-server-1
+..1. kubectl get svc | grep echo-server-1
 4. ssh to a pod
-  i. get a list of your pods via: kubectl get po
-  ii. ssh in with: kubectl exec -it {podname} /bin/bash
+..1. get a list of your pods via: kubectl get po
+..2. ssh in with: kubectl exec -it {podname} /bin/bash
 5. connect to the service repeatedly until you hang
-  i. nc {service_ip} 8080
+..1. nc {service_ip} 8080
 
 
