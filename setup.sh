@@ -8,7 +8,7 @@ WORKDIR=$MYDIR/tmp_launch_data
 mkdir -p $WORKDIR
 SSH_CONFIG=$WORKDIR/ssh.config
 SLEEP_TIME=10
-KUBECONFIG="$WORKDIR/coreos-kubernetes/single-node/kubeconfig"
+export KUBECONFIG="$WORKDIR/coreos-kubernetes/single-node/kubeconfig"
 
 wait_for_all_pods() {
     while : ; do 
