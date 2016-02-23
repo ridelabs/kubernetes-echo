@@ -16,7 +16,12 @@ wait_for_all_pods() {
         IFS=$'\n'
         local lines=($(kubectl get po --all-namespaces 2>/dev/null | grep -v STAT | awk '{print $1,$2,$4}'))
         echo "----------------------------------"
-        problem=false
+        count=$(kubectl get po --all-namespaces | grep -v STAT | wc -l)
+        problem=true
+        # if there are some, then we say that we might not have a problem
+        if [ $count -gt 0 ] ; then 
+            problem=false
+        fi
         for i in "${lines[@]}"; do
             namespace=`echo $i | awk '{print $1}'`
             image=`echo $i | awk '{print $2}'`
@@ -54,6 +59,7 @@ wait_for_all_pods() {
 wait_for_node() {
     while ! kubectl get nodes 2>/dev/null| grep 'Ready' >/dev/null 2>&1 ; do 
         echo "Waiting for kubernetes node to stabilize... `date`"
+        kubectl config use-context vagrant-single 
         sleep $SLEEP_TIME
     done
 }
@@ -100,12 +106,8 @@ edit_files
 vagrant up
 
 wait_for_ssh_config
-kubectl config use-context vagrant-single
-
 wait_for_node
 wait_for_all_pods
-
-K8NODE=$(kubectl get nodes | grep -v NAME | awk '{print $1}')
 
 echo ""
 echo "############################################"
@@ -115,7 +117,6 @@ echo "Please run the following in shells that you want to connect to your k8s ne
 echo ""
 echo "export KUBECONFIG=\"$KUBECONFIG\""
 echo "export SSH_CONFIG=\"$SSH_CONFIG\""
-echo "export K8NODE=\"$K8NODE\""
 echo ""
 echo "Note: to ssh into the node, run: ssh -F \$SSH_CONFIG default"
 echo ""
